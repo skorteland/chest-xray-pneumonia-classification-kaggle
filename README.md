@@ -1,6 +1,6 @@
 # Chest X-ray Pneumonia Classifier
 
-This project is a deep learning model to detect pneumonia from chest X-ray images using Pytorch.
+This project explores several convolutional neural networks to detect pneumonia from chest X-ray images using Pytorch.
 
 ## Dataset
 - [Kaggle Chest X-ray Pneumonia Dataset] (https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia)
@@ -8,8 +8,11 @@ This project is a deep learning model to detect pneumonia from chest X-ray image
 
 ## Models
 In this project relatively simple models were used as only a CPU was available for training.
-In this project several models are investigated:
-1. basic CNN model
-2. basic CNN model with data augmentation
-3. transfer learning with a pre-trained complex CNN model
 
+1. tiny CNN model consisting of two convolutional layers and one fully coupled layer.
+2. simple CNN model consisting of three convolutional layers and two fully coupled layers.
+3. transfer learning with a pre-trained ResNet18 and Resnet34 model
+4. transfer learning with a pre-trained MobileNetV2 model
+5. transfer learning with a pre-trained EfficientNet-b0 model
+
+The models are described and explored in the notebooks.
