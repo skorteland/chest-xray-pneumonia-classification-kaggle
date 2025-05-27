@@ -1,0 +1,31 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Visual studio code
+.vscode/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+env/
+
+# Data
+data/
+!data/README.md
+
+# Models
+/models/
+!/models/README.md
+
+# Logs and outputs
+logs/
+*.log
+runs/             # TensorBoard
+checkpoints/
+
+# OS-specific
+.DS_Store
+Thumbs.dbs
