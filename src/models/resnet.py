@@ -30,7 +30,7 @@ def get_resnet18(pretrained=True, grayscale=True, freeze = False):
     if freeze:
         # Freeze all layers except input layer (if grayscale) and classifier head
         for name,param in model.named_parameters():
-            if "conv1" in name or "fc" in name:
+            if "fc" in name or (grayscale and "conv1" in name):
                 param.requires_grad = True
             else:
                 param.requires_grad = False
@@ -58,7 +58,7 @@ def get_resnet34(pretrained=True, grayscale=True, freeze = False):
     if freeze:
         # Freeze all layers except input layer (if grayscale) and classifier head
         for name,param in model.named_parameters():
-            if "conv1" in name or "fc" in name:
+            if "fc" in name or (grayscale and "conv1" in name):
                 param.requires_grad = True
             else:
                 param.requires_grad = False
