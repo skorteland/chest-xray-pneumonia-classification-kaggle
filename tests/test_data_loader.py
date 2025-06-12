@@ -90,9 +90,9 @@ def test_get_dataloader_with_custom_transform(fake_data_dir):
     img_size = 32
     
     custom_transform = v2.Compose([
-            v2.Resize((img_size,img_size)),
-            v2.ToImage(),    # converts PIL to v2 tensor image
+            v2.ToImage(), # converts PIL to v2 tensor image
             v2.Grayscale(num_output_channels=1), # force grayscale
+            v2.Resize((img_size,img_size)),
             v2.ToDtype(torch.float32, scale=True) # scales pixel values to [0,1]
     ])
 
