@@ -20,7 +20,16 @@ def get_resnet18(pretrained=True, grayscale=True, freeze = False):
 
     if grayscale:
         # modify the input layer to accept 1-channel input
+        # Save the pretrained weights from the original 3-channel conv1
+        pretrained_conv1_weights = model.conv1.weight.clone()
+
+        # replace input layer to accept 1-channel input
         model.conv1 = nn.Conv2d(1,64,kernel_size=7, stride=2,padding=3,bias=False)
+
+        # Copy weights from original input layer by averaging accross channels
+        # This helps retain pretrained knowledge even though the input layer has changed
+        with torch.no_grad():
+            model.conv1.weight[:] = pretrained_conv1_weights.mean(dim=1, keepdim=True)
 
     # adapt for binary classification
     num_features = model.fc.in_features
@@ -30,7 +39,9 @@ def get_resnet18(pretrained=True, grayscale=True, freeze = False):
     if freeze:
         # Freeze all layers except input layer (if grayscale) and classifier head
         for name,param in model.named_parameters():
-            if "fc" in name or (grayscale and "conv1" in name):
+            if "fc" in name:
+                param.requires_grad = True
+            elif ("conv1" in name) and grayscale:
                 param.requires_grad = True
             else:
                 param.requires_grad = False
@@ -49,7 +60,17 @@ def get_resnet34(pretrained=True, grayscale=True, freeze = False):
     model = models.resnet34(weights=models.ResNet34_Weights.DEFAULT if pretrained else None)
 
     if grayscale:
+        # modify the input layer to accept 1-channel input
+        # Save the pretrained weights from the original 3-channel conv1
+        pretrained_conv1_weights = model.conv1.weight.clone()
+
+        # replace input layer to accept 1-channel input
         model.conv1 = nn.Conv2d(1,64,kernel_size=7, stride=2,padding=3,bias=False)
+
+        # Copy weights from original input layer by averaging accross channels
+        # This helps retain pretrained knowledge even though the input layer has changed
+        with torch.no_grad():
+            model.conv1.weight[:] = pretrained_conv1_weights.mean(dim=1, keepdim=True)
 
     # adapt for binary classification
     num_features = model.fc.in_features
@@ -58,7 +79,9 @@ def get_resnet34(pretrained=True, grayscale=True, freeze = False):
     if freeze:
         # Freeze all layers except input layer (if grayscale) and classifier head
         for name,param in model.named_parameters():
-            if "fc" in name or (grayscale and "conv1" in name):
+            if "fc" in name:
+                param.requires_grad = True
+            elif ("conv1" in name) and grayscale:
                 param.requires_grad = True
             else:
                 param.requires_grad = False
